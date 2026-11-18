@@ -1,0 +1,21 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  style:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make this checkout the tap
+        run: |
+          mkdir -p "$(brew --repository)/Library/Taps/karanzykx"
+          ln -s "$GITHUB_WORKSPACE" "$(brew --repository)/Library/Taps/karanzykx/homebrew-tap"
+      - name: brew style
+        run: brew style karanzykx/tap
